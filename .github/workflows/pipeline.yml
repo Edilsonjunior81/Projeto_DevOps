@@ -15,7 +15,7 @@ jobs:
       - name: Checkout do código
         uses: actions/checkout@v3
 
-      - name: Instalar Python e dependências
+      - name: Instalar dependências
         run: |
           python3 --version
           pip install pytest
@@ -35,7 +35,7 @@ jobs:
       - name: Instalar Semgrep
         run: pip install semgrep
 
-      - name: Executar análise de SAST
+      - name: Executar análise SAST
         run: semgrep --config=auto .
         continue-on-error: false
 
@@ -48,7 +48,7 @@ jobs:
       - name: Checkout do código
         uses: actions/checkout@v3
         
-      - name: Iniciar app para o ZAP testar
+      - name: Iniciar aplicação para DAST
         run: |
           python3 Hello_word.py &
           sleep 5
@@ -57,21 +57,3 @@ jobs:
         uses: zaproxy/action-baseline@v0.8.0
         with:
           target: "http://localhost:8080"
-name: CI Pipeline
-
-on:
-  push:
-    branches: [ main, develop ]
-  pull_request:
-    branches: [ main, develop ]
-
-jobs:
-  test:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout do código
-        uses: actions/checkout@v3
-
-      - name: Executar comando simples
-        run: echo "Pipeline executada com sucesso!"
